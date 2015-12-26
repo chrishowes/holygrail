@@ -5,11 +5,9 @@
                  [org.clojure/clojurescript "1.7.189"]
                  [adzerk/boot-cljs "1.7.170-3" :scope "test"]
                  [adzerk/boot-reload    "0.4.2"      :scope "test"]
-
                  [adzerk/boot-cljs-repl   "0.3.0"] ;; latest release
                  [com.cemerick/piggieback "0.2.1"  :scope "test"]
                  [weasel                  "0.7.0"  :scope "test"]
-
                  [environ"1.0.1"]
                  [boot-environ "1.0.1"]
                  [org.danielsz/system "0.2.1-SNAPSHOT"]
@@ -19,16 +17,17 @@
                  [ring/ring-defaults "0.1.5"]
                  [http-kit "2.1.19"]
                  [compojure "1.4.0"]
+
                  ; client
-                 [org.omcljs/om "1.0.0-alpha28" :exclusions [[cljsjs/react]]]
-                 [cljsjs/react "0.14.3-0"]])
+                 [reagent "0.6.0-alpha" :exclusions [[cljsjs/react]]]
+                 [cljsjs/react-with-addons "0.14.3-0"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]
  '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
  '[adzerk.boot-reload    :refer [reload]]
  '[reloaded.repl :refer [init start stop go reset]]
- '[holy-grail.systems :refer [dev-system prod-system]]
+ '[app.systems :refer [dev-system prod-system]]
  '[environ.boot :refer [environ]]
  '[system.boot :refer [system run]])
 
@@ -60,7 +59,7 @@
   (comp
    (environ :env {:http-port "3000"})
    (cljs)
-   (run :main-namespace "holy-grail.core" :arguments [#'dev-system])
+   (run :main-namespace "app.core" :arguments [#'dev-system])
    (wait)))
 
 (deftask prod-run
@@ -70,7 +69,7 @@
    (environ :env {:http-port "8008"
                   :repl-port "8009"})
    (cljs :optimizations :advanced)
-   (run :main-namespace "holy-grail.core" :arguments [#'prod-system])
+   (run :main-namespace "app.core" :arguments [#'prod-system])
    (wait)))
 
 
